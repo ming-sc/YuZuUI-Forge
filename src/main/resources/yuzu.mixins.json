@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "package": "com.img.mixin",
+  "refmap": "yuzu.refmap.json",
+  "mixins": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "client": [
+    "GuiGraphicsMixin",
+    "MinecraftMixin",
+    "MusicsMixin",
+    "TitleScreenMixin"
+  ]
+}

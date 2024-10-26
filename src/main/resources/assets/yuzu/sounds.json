@@ -1,0 +1,52 @@
+{
+  "yuzu_title_music": {
+    "sounds": [
+        "yuzu:yuzu_title_music"
+    ]
+  },
+  "yuzu_title_button_on": {
+    "sounds": [
+        "yuzu:yuzu_title_button_on"
+    ]
+  },
+  "yuzu_title_button_click": {
+    "sounds": [
+        "yuzu:yuzu_title_button_click"
+    ]
+  },
+  "yuzu_title_button_new_game": {
+    "sounds": [
+        "yuzu:yuzu_title_button_new_game"
+    ]
+  },
+  "yuzu_title_button_select_world": {
+    "sounds": [
+        "yuzu:yuzu_title_button_select_world"
+    ]
+  },
+  "yuzu_title_button_options": {
+    "sounds": [
+        "yuzu:yuzu_title_button_options"
+    ]
+  },
+  "yuzu_title_button_quit_game": {
+    "sounds": [
+        "yuzu:yuzu_title_button_quit_game"
+    ]
+  },
+  "yuzu_title_senren": {
+    "sounds": [
+        "yuzu:yuzu_title_senren"
+    ]
+  },
+  "yuzu_title_button_realms": {
+    "sounds": [
+        "yuzu:yuzu_title_button_realms"
+    ]
+  },
+  "yuzu_title_button_mod_list": {
+    "sounds": [
+        "yuzu:yuzu_title_button_mod_list"
+    ]
+  }
+}
