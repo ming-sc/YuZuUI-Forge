@@ -11,7 +11,7 @@ import org.slf4j.Logger;
 public class YuZuUI
 {
     public static final String MODID = "yuzu";
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     public YuZuUI() {
         InitSounds.SOUND_EVENTS.register(FMLJavaModLoadingContext.get().getModEventBus());

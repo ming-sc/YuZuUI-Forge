@@ -10,7 +10,6 @@
   "client": [
     "GuiGraphicsMixin",
     "MinecraftMixin",
-    "MusicsMixin",
-    "TitleScreenMixin"
+    "MusicsMixin"
   ]
 }
