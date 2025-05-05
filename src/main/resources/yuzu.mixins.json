@@ -8,9 +8,7 @@
     "defaultRequire": 1
   },
   "client": [
-    "GuiGraphicsMixin",
     "MinecraftMixin",
-    "MusicsMixin",
-    "TitleScreenMixin"
+    "MusicsMixin"
   ]
 }

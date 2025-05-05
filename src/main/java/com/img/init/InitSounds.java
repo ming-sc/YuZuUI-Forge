@@ -17,7 +17,6 @@ public class InitSounds {
     public static RegistryObject<SoundEvent> YUZU_TITLE_MUSIC = register("yuzu_title_music");
     public static RegistryObject<SoundEvent> YUZU_TITLE_BUTTON_ON = register("yuzu_title_button_on");
     public static RegistryObject<SoundEvent> YUZU_TITLE_BUTTON_CLICK = register("yuzu_title_button_click");
-    public static RegistryObject<SoundEvent> YUZU_TITLE_BUTTON_NEW_GAME = register("yuzu_title_button_new_game");
     public static RegistryObject<SoundEvent> YUZU_TITLE_BUTTON_SELECT_WORLD = register("yuzu_title_button_select_world");
     public static RegistryObject<SoundEvent> YUZU_TITLE_BUTTON_OPTIONS = register("yuzu_title_button_options");
     public static RegistryObject<SoundEvent> YUZU_TITLE_BUTTON_QUIT_GAME = register("yuzu_title_button_quit_game");

@@ -1,16 +1,19 @@
 package com.img.gui;
 
 import com.img.function.AnimationFunction;
-import com.img.GuiGraphicsMixinInterface;
+import com.img.utils.RenderUtils;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.Util;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Renderable;
+import net.minecraft.client.renderer.texture.Tickable;
 import net.minecraft.resources.ResourceLocation;
 
 /**
  * @author : IMG
  * @create : 2024/10/26
  */
-public class Layer {
+public class Layer implements Renderable, Tickable {
     private ResourceLocation texture;
 
     private float x;
@@ -50,18 +53,16 @@ public class Layer {
         this.virtualScreen = virtualScreen;
     }
 
+    @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
-        guiGraphics.setColor(1.0F, 1.0F, 1.0F, alpha);
-        GuiGraphicsMixinInterface graphics = (GuiGraphicsMixinInterface) guiGraphics;
-        graphics.blit(
-                texture,
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, alpha);
+        RenderSystem.setShaderTexture(0, texture);
+        RenderUtils.blit(
                 virtualScreen.toPracticalX(x),
                 virtualScreen.toPracticalY(y),
                 virtualScreen.toPracticalWidth(width * scale),
                 virtualScreen.toPracticalHeight(height * scale),
-                u, v,
-                regionWidth, regionHeight,
-                textureWidth, textureHeight
+                guiGraphics.pose()
         );
     }
 
@@ -177,7 +178,9 @@ public class Layer {
         this.virtualScreen = virtualScreen;
     }
 
-    // 动画相关
+    /**
+     * 动画相关
+     */
     private Long duration;
     private Long startTime = null;
     private Long delay;
@@ -186,6 +189,7 @@ public class Layer {
     private AnimationFunction<Float> alphaFunction;
     private AnimationFunction<Float> scaleFunction;
 
+    @Override
     public void tick() {
 
         if (delay == null || duration == 0) {

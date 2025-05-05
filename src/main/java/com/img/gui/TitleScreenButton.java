@@ -1,8 +1,8 @@
 package com.img.gui;
 
-import com.img.GuiGraphicsMixinInterface;
 import com.img.function.AnimationFunction;
 import com.img.init.InitSounds;
+import com.img.utils.RenderUtils;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
@@ -16,6 +16,7 @@ import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.navigation.FocusNavigationEvent;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
+import net.minecraft.client.renderer.texture.Tickable;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
@@ -26,7 +27,7 @@ import java.util.function.Consumer;
  * @author : IMG
  * @create : 2024/10/26
  */
-public class TitleScreenButton implements Renderable, GuiEventListener, LayoutElement, NarratableEntry {
+public class TitleScreenButton implements Renderable, GuiEventListener, LayoutElement, NarratableEntry, Tickable {
     private float x;
     private float y;
     private float width;
@@ -55,32 +56,19 @@ public class TitleScreenButton implements Renderable, GuiEventListener, LayoutEl
     }
 
     public void renderButton(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
-        GuiGraphicsMixinInterface graphics = (GuiGraphicsMixinInterface) guiGraphics;
         if (this.visible) {
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
             if (this.isHovered()) {
-                graphics.blit(
-                        textureHover,
-                        virtualScreen.toPracticalX(x),
-                        virtualScreen.toPracticalY(y),
-                        virtualScreen.toPracticalWidth(width),
-                        virtualScreen.toPracticalHeight(height),
-                        0, 0,
-                        256, 256,
-                        256, 256
-                );
+                RenderSystem.setShaderTexture(0, textureHover);
             }else {
-                graphics.blit(
-                        texture,
-                        virtualScreen.toPracticalX(x),
-                        virtualScreen.toPracticalY(y),
-                        virtualScreen.toPracticalWidth(width),
-                        virtualScreen.toPracticalHeight(height),
-                        0, 0,
-                        256, 256,
-                        256, 256
-                );
+                RenderSystem.setShaderTexture(0, texture);
             }
+            RenderUtils.blit(
+                    virtualScreen.toPracticalX(x),
+                    virtualScreen.toPracticalY(y),
+                    virtualScreen.toPracticalWidth(width),
+                    virtualScreen.toPracticalHeight(height),
+                    guiGraphics.pose()
+            );
         }
     }
 
@@ -252,6 +240,7 @@ public class TitleScreenButton implements Renderable, GuiEventListener, LayoutEl
         this.alphaFunction = alphaFunction;
     }
 
+    @Override
     public void tick(){
         if (delay == null || duration == 0){
             return;
