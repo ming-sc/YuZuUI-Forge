@@ -1,6 +1,5 @@
 package com.img.gui.screen;
 
-import com.img.YuZuUI;
 import com.img.constant.TextureConst;
 import com.img.gui.*;
 import com.img.init.InitSounds;
