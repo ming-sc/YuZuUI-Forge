@@ -31,6 +31,16 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
+    # Thanks to TartaricAcid
+    - name: Cache Gradle packages
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: ${{ runner.os }}-gradle-
+
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
 
@@ -49,3 +59,8 @@ jobs:
         draft: false
         prerelease: true
         files: ./build/libs/*.jar
+
+    - name: Cleanup Gradle Cache
+      run: |
+        rm -f ~/.gradle/caches/modules-2/modules-2.lock
+        rm -f ~/.gradle/caches/modules-2/gc.properties
