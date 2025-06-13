@@ -23,6 +23,8 @@ public class InitSounds {
     public static RegistryObject<SoundEvent> YUZU_TITLE_SENREN = register("yuzu_title_senren");
     public static RegistryObject<SoundEvent> YUZU_TITLE_BUTTON_REALMS = register("yuzu_title_button_realms");
     public static RegistryObject<SoundEvent> YUZU_TITLE_BUTTON_MOD_LIST = register("yuzu_title_button_mod_list");
+    public static RegistryObject<SoundEvent> YUZU_TITLE_BUTTON_SINGLEPLAYER = register("yuzu_title_button_singleplayer");
+    public static RegistryObject<SoundEvent> YUZU_TITLE_BUTTON_MUTIPLAYER = register("yuzu_title_button_mutiplayer");
 
     public static RegistryObject<SoundEvent> register(String name) {
         return SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(YuZuUI.MODID, name)));
