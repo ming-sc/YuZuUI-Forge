@@ -19,6 +19,7 @@ import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.renderer.texture.Tickable;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
@@ -38,13 +39,15 @@ public class TitleScreenButton implements Renderable, GuiEventListener, LayoutEl
     private boolean isHovered = false;
     private boolean isFocused = false;
 
+    private int index;
+
     private ResourceLocation texture;
     private ResourceLocation textureHover;
     private VirtualScreen virtualScreen;
 
     private Consumer<TitleScreenButton> onClick;
 
-    public TitleScreenButton(float x, float y, float width, float height, ResourceLocation texture, ResourceLocation textureHover, VirtualScreen virtualScreen, float alpha) {
+    public TitleScreenButton(float x, float y, float width, float height, ResourceLocation texture, ResourceLocation textureHover, VirtualScreen virtualScreen, float alpha, int index) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -53,6 +56,7 @@ public class TitleScreenButton implements Renderable, GuiEventListener, LayoutEl
         this.textureHover = textureHover;
         this.virtualScreen = virtualScreen;
         this.alpha = alpha;
+        this.index = index;
     }
 
     public void renderButton(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
@@ -91,7 +95,12 @@ public class TitleScreenButton implements Renderable, GuiEventListener, LayoutEl
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (this.visible && this.isMouseOver(mouseX, mouseY)) {
-            Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(InitSounds.YUZU_TITLE_BUTTON_CLICK.get(), 1.0f, 1.0f));
+            SoundEvent sound= switch (index){
+                case 0,1 -> InitSounds.YUZU_TITLE_BUTTON_SINGLEPLAYER.get();
+                case 2 -> InitSounds.YUZU_TITLE_BUTTON_MUTIPLAYER.get();
+                default -> InitSounds.YUZU_TITLE_BUTTON_CLICK.get();
+            };
+            Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(sound, 1.0f, 1.0f));
             if (this.onClick != null) {
                 this.onClick.accept(this);
             }

@@ -19,6 +19,7 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.texture.Tickable;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraftforge.client.gui.ModListScreen;
 import net.minecraftforge.registries.RegistryObject;
 import org.apache.commons.compress.utils.Lists;
@@ -192,7 +193,7 @@ public class SenrenBankaTitleScreen extends TitleScreen {
             setAlphaFunction((t, now) -> {
                 float v = (1f - 0f) * (float) ((Math.pow(0.1, t) - 1) / (0.1 - 1)) + 0f;
                 if (v == 1f && now != 1f){
-                    Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(InitSounds.YUZU_TITLE_SENREN.get(), 1.0f, 10.0f));
+                    playSound(InitSounds.YUZU_TITLE_SENREN);
                 }
                 return v;
             });
@@ -238,7 +239,7 @@ public class SenrenBankaTitleScreen extends TitleScreen {
         int dy = 100;
 
         // 新建世界
-        TitleScreenButton newGameButton = new TitleScreenButton(60, y, 207, 54, TextureConst.TITLE_NEW_GAME_BUTTON_NORMAL, TextureConst.TITLE_NEW_GAME_BUTTON_ON, VIRTUAL_SCREEN, 0f){{
+        TitleScreenButton newGameButton = new TitleScreenButton(60, y, 207, 54, TextureConst.TITLE_NEW_GAME_BUTTON_NORMAL, TextureConst.TITLE_NEW_GAME_BUTTON_ON, VIRTUAL_SCREEN, 0f,0){{
             setDelay(delay + 1670L);
             setDuration(570L);
 
@@ -253,7 +254,7 @@ public class SenrenBankaTitleScreen extends TitleScreen {
 
 
         // 选择世界
-        TitleScreenButton selectWorldButton = new TitleScreenButton(60, y + dy, 206, 55, TextureConst.TITLE_SELECT_WORLD_BUTTON_NORMAL, TextureConst.TITLE_SELECT_WORLD_BUTTON_ON, VIRTUAL_SCREEN, 0f){{
+        TitleScreenButton selectWorldButton = new TitleScreenButton(60, y + dy, 206, 55, TextureConst.TITLE_SELECT_WORLD_BUTTON_NORMAL, TextureConst.TITLE_SELECT_WORLD_BUTTON_ON, VIRTUAL_SCREEN, 0f,1){{
             setDelay(delay + 1670L);
             setDuration(570L);
 
@@ -269,7 +270,7 @@ public class SenrenBankaTitleScreen extends TitleScreen {
 
 
         // 多人游戏
-        TitleScreenButton continueButton = new TitleScreenButton(66, y + dy * 2, 313, 56, TextureConst.TITLE_CONTINUE_BUTTON_NORMAL, TextureConst.TITLE_CONTINUE_BUTTON_ON, VIRTUAL_SCREEN, 0f){{
+        TitleScreenButton continueButton = new TitleScreenButton(66, y + dy * 2, 313, 56, TextureConst.TITLE_CONTINUE_BUTTON_NORMAL, TextureConst.TITLE_CONTINUE_BUTTON_ON, VIRTUAL_SCREEN, 0f,2){{
             setDelay(delay + 1670L);
             setDuration(570L);
 
@@ -285,7 +286,7 @@ public class SenrenBankaTitleScreen extends TitleScreen {
 
 
         // realms
-        TitleScreenButton realmsButton = new TitleScreenButton(66, y + dy * 3, 164, 54, TextureConst.TITLE_REAMLS_BUTTON_NORMAL, TextureConst.TITLE_REAMLS_BUTTON_ON, VIRTUAL_SCREEN, 0f){{
+        TitleScreenButton realmsButton = new TitleScreenButton(66, y + dy * 3, 164, 54, TextureConst.TITLE_REAMLS_BUTTON_NORMAL, TextureConst.TITLE_REAMLS_BUTTON_ON, VIRTUAL_SCREEN, 0f,3){{
             setDelay(delay + 1670L);
             setDuration(570L);
 
@@ -301,7 +302,7 @@ public class SenrenBankaTitleScreen extends TitleScreen {
 
 
         // 模组列表
-        TitleScreenButton modListButton = new TitleScreenButton(58, y + dy * 4, 211, 54, TextureConst.TITLE_MOD_LIST_BUTTON_NORMAL, TextureConst.TITLE_MOD_LIST_BUTTON_ON, VIRTUAL_SCREEN, 0f){{
+        TitleScreenButton modListButton = new TitleScreenButton(58, y + dy * 4, 211, 54, TextureConst.TITLE_MOD_LIST_BUTTON_NORMAL, TextureConst.TITLE_MOD_LIST_BUTTON_ON, VIRTUAL_SCREEN, 0f,4){{
             setDelay(delay + 1670L);
             setDuration(570L);
 
@@ -317,7 +318,7 @@ public class SenrenBankaTitleScreen extends TitleScreen {
 
 
         // 设置
-        TitleScreenButton optionsButton = new TitleScreenButton(59, y + dy * 5, 253, 56, TextureConst.TITLE_OPTIONS_BUTTON_NORMAL, TextureConst.TITLE_OPTIONS_BUTTON_ON, VIRTUAL_SCREEN, 0f){{
+        TitleScreenButton optionsButton = new TitleScreenButton(59, y + dy * 5, 253, 56, TextureConst.TITLE_OPTIONS_BUTTON_NORMAL, TextureConst.TITLE_OPTIONS_BUTTON_ON, VIRTUAL_SCREEN, 0f,5){{
             setDelay(delay + 1670L);
             setDuration(570L);
 
@@ -333,7 +334,7 @@ public class SenrenBankaTitleScreen extends TitleScreen {
 
 
         // 退出游戏
-        TitleScreenButton quitGameButton = new TitleScreenButton(60, y + dy * 6, 233, 54, TextureConst.TITLE_QUIT_GAME_BUTTON_NORMAL, TextureConst.TITLE_QUIT_GAME_BUTTON_ON, VIRTUAL_SCREEN, 0f){{
+        TitleScreenButton quitGameButton = new TitleScreenButton(60, y + dy * 6, 233, 54, TextureConst.TITLE_QUIT_GAME_BUTTON_NORMAL, TextureConst.TITLE_QUIT_GAME_BUTTON_ON, VIRTUAL_SCREEN, 0f,6){{
             setDelay(delay + 1670L);
             setDuration(570L);
 
@@ -384,6 +385,7 @@ public class SenrenBankaTitleScreen extends TitleScreen {
     }
 
     public void playSound(RegistryObject<SoundEvent> sound) {
-        Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(sound.get(), 1.0f, 1.0f));
+        Minecraft mc = Minecraft.getInstance();
+        mc.getSoundManager().play(SimpleSoundInstance.forUI(sound.get(), 1.0f, mc.options.getSoundSourceVolume(SoundSource.VOICE)));
     }
 }
