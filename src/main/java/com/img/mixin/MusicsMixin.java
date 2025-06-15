@@ -1,15 +1,14 @@
 package com.img.mixin;
 
 import com.img.init.InitSounds;
+import net.minecraft.core.Holder;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.Musics;
-import org.spongepowered.asm.mixin.Final;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Mutable;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
 /**
  * @author : IMG
@@ -17,12 +16,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  */
 @Mixin(Musics.class)
 public abstract class MusicsMixin {
-
-    @Mutable
-    @Shadow @Final public static Music MENU;
-
-    @Inject(method = "<clinit>", at = @At("TAIL"))
-    private static void init(CallbackInfo ci) {
-        MENU = new Music(InitSounds.YUZU_TITLE_MUSIC.getHolder().get(), 50, 50, true);
+    @Redirect(method = "<clinit>", at = @At(value = "NEW", target = "(Lnet/minecraft/core/Holder;IIZ)Lnet/minecraft/sounds/Music;"))
+    private static Music redirectMenuMuisc(final Holder<SoundEvent> eventHolder, int minDelay, int maxDelay, boolean replaceCurrentMusic) {
+        if (eventHolder.value() == SoundEvents.MUSIC_MENU.value()) {
+            return new Music(InitSounds.YUZU_TITLE_MUSIC, 20, 20, true);
+        }
+        return new Music(eventHolder, minDelay, maxDelay, replaceCurrentMusic);
     }
 }

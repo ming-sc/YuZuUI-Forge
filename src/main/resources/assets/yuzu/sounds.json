@@ -14,9 +14,9 @@
         "yuzu:yuzu_title_button_click"
     ]
   },
-  "yuzu_title_button_new_game": {
+  "yuzu_title_button_singleplayer": {
     "sounds": [
-        "yuzu:yuzu_title_button_new_game"
+        "yuzu:yuzu_title_button_singleplayer"
     ]
   },
   "yuzu_title_button_select_world": {
@@ -47,6 +47,11 @@
   "yuzu_title_button_mod_list": {
     "sounds": [
         "yuzu:yuzu_title_button_mod_list"
+    ]
+  },
+  "yuzu_title_button_mutiplayer": {
+    "sounds": [
+      "yuzu:yuzu_title_button_mutiplayer"
     ]
   }
 }
