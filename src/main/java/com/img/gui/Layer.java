@@ -55,6 +55,41 @@ public class Layer implements Renderable, Tickable {
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        if (duration == null || duration == 0) {
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, alpha);
+            RenderSystem.setShaderTexture(0, texture);
+            RenderUtils.blit(
+                    virtualScreen.toPracticalX(x),
+                    virtualScreen.toPracticalY(y),
+                    virtualScreen.toPracticalWidth(width * scale),
+                    virtualScreen.toPracticalHeight(height * scale),
+                    guiGraphics.pose()
+            );
+        }
+
+        // 计算动画进度
+        long currentTime = Util.getEpochMillis();
+        if (startTime == null) {
+            startTime = currentTime;
+        } else {
+            float elapsed = currentTime - startTime;
+            if (elapsed>delay){
+            float time = Math.min((float) (elapsed - delay) / duration, 1.0f);
+            if (xFunction != null) {
+                x = xFunction.apply(time, x);
+            }
+            if (yFunction != null) {
+                y = yFunction.apply(time, y);
+            }
+            if (alphaFunction != null) {
+                alpha = alphaFunction.apply(time, alpha);
+            }
+            if (scaleFunction != null) {
+                scale = scaleFunction.apply(time, scale);
+            }
+        }}
+
+        // 渲染更新后的状态
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, alpha);
         RenderSystem.setShaderTexture(0, texture);
         RenderUtils.blit(
@@ -191,32 +226,6 @@ public class Layer implements Renderable, Tickable {
 
     @Override
     public void tick() {
-
-        if (delay == null || duration == 0) {
-            return;
-        }
-
-        long currentTime = Util.getEpochMillis();
-        if (startTime == null) {
-            startTime = currentTime;
-        } else {
-            float t = currentTime - startTime;
-            if (t > delay) {
-                float time = Math.min((float) (t - delay) / duration, 1);
-                if (xFunction != null){
-                    x = xFunction.apply(time, x);
-                }
-                if (yFunction != null){
-                    y = yFunction.apply(time, y);
-                }
-                if (alphaFunction != null){
-                    alpha = alphaFunction.apply(time, alpha);
-                }
-                if (scaleFunction != null) {
-                    scale = scaleFunction.apply(time, scale);
-                }
-            }
-        }
     }
 
     public Long getDuration() {

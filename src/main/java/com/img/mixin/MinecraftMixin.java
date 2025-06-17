@@ -21,4 +21,8 @@ public abstract class MinecraftMixin {
         }
         return screen;
     }
+    @Redirect(method = "setScreen", at = @At(value = "NEW", target = "net/minecraft/client/gui/screens/TitleScreen"))
+    private TitleScreen redirectTitleScreen() {
+        return new SenrenBankaTitleScreen();
+    }
 }
